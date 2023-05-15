@@ -7,77 +7,87 @@
 using namespace std;
 
 //KE - Function name changed for consistent naming convention
+//KE - Converts the rand value to a dollar value
 int dollarsToRands(float x)
 {
     return(x*20);
 }
 
+//KE - Calculates profit margin ratio
 double calcRatioPM(double revenue, double expenses)
 {
     return((revenue-expenses)/revenue);
 }
 
+//KE - Calculates return on assets ratio
 double calcRatioRoA(double revenue, double expenses, double assets)
 {
-    return ((revenue-expenses) / assets); //KE - fixed equation
+    return ((revenue-expenses) / assets); //KE - fixed equation 
 }
 
+//KE - Caclulates debt-to-equite ratio
 double calcRatioDE(double assets, double liabilities)
 {
     return(liabilities/assets);  //KE - fixed equation
 }
 
-char categorisePM(double ratio)
+//KE - Categorises the profit margin ratio
+string categorisePM(double ratio)
 {
-    char cat;
+    string cat;
     if (ratio<0.08)
-        cat='unhealty';
+        cat="unhealty";
     else if (ratio<0.15&&ratio>0.08)  //KE - fixed condition
-        cat='average';
+        cat="average";
     else
-        cat='healthy';
+        cat="healthy";
     return(cat);
 }
 
-char categoriseRoA(double ratio)
+//KE - Categorises the return on assets ratio
+string categoriseRoA(double ratio)
 {
-    char cat;
+    string cat;
     if (ratio < 0.08)
-        cat = 'unhealthy';
+        cat = "unhealthy";
     else if (ratio < 0.15 && ratio > 0.08)  //KE -fixed condition
-        cat = 'average';
+        cat = "average";
     else
-        cat = 'healthy';
+        cat = "healthy";
     return(cat);
 }
 
-char categoriseDE(double ratio)
+//KE - Categorises the debt-to-equity ratio
+string categoriseDE(double ratio)
 {
-    char cat;
+    string cat;
     if (ratio < 1)
-        cat = 'healthy';
+        cat = "healthy";
     else if (ratio>=1&&ratio < 2)   //KE - fixed contition
-        cat = 'average';
+        cat = "average";
     else
-        cat = 'unhealthy';
+        cat = "unhealthy";
     return(cat);
 }
 
 void process_data(char* input_file, char* output_file)
 {
+    //KE - Initializing variables
     ifstream f_in;
     ofstream f_out;
     string data;
     string company_id;
     double revenue_USD, expenses, assets, liabilities, revenue_ZAR, ratio_PM, ratio_RoA, ratio_DE;
-    char cat, cat2, cat3;
+    string cat, cat2, cat3; //KE - All char variables were changed to string variables
 
+    //KE - Opening input and output files
     f_in.open(input_file,ios::in);
     f_out.open(output_file,ofstream::out);
+    //KE - Setting variabes with data from the input file
     while (!f_in.eof())
     {
     	f_in >> company_id >> revenue_USD >> expenses >> assets >> liabilities;
-        revenue_ZAR = dollarsTorRands(double(revenue_ZAR));
+        revenue_ZAR = dollarsToRands(double(revenue_ZAR));
         ratio_PM = calcRatioPM(revenue_USD, expenses);
         cat=categorisePM(ratio_PM);
         ratio_RoA = calcRatioRoA(revenue_ZAR, expenses, assets);;
@@ -86,6 +96,7 @@ void process_data(char* input_file, char* output_file)
         cat3 = categoriseDE(ratio_DE);;
 	f_out << company_id << " " << ratio_PM << " " << cat << ratio_RoA << " " << cat3 << ratio_DE << " " << cat2 << endl;
     }
+    //KE - Closing the files when they are no longer needed
     f_in.close();
     f_out.close();
 }
