@@ -8,7 +8,7 @@ using namespace std;
 
 //KE - Function name changed for consistent naming convention
 //KE - Converts the rand value to a dollar value
-int dollarsToRands(float x)
+float dollarsToRands(float x)
 {
     return(x*20);
 }
@@ -83,11 +83,13 @@ void process_data(char* input_file, char* output_file)
     //KE - Opening input and output files
     f_in.open(input_file,ios::in);
     f_out.open(output_file,ofstream::out);
+
+
     //KE - Setting variabes with data from the input file
     while (!f_in.eof())
     {
     	f_in >> company_id >> revenue_USD >> expenses >> assets >> liabilities;
-        revenue_ZAR = dollarsToRands(double(revenue_ZAR));
+        revenue_ZAR = dollarsToRands(revenue_ZAR);
         ratio_PM = calcRatioPM(revenue_USD, expenses);
         cat=categorisePM(ratio_PM);
         ratio_RoA = calcRatioRoA(revenue_ZAR, expenses, assets);;
@@ -96,6 +98,7 @@ void process_data(char* input_file, char* output_file)
         cat3 = categoriseDE(ratio_DE);;
 	f_out << company_id << " " << ratio_PM << " " << cat << ratio_RoA << " " << cat3 << ratio_DE << " " << cat2 << endl;
     }
+
     //KE - Closing the files when they are no longer needed
     f_in.close();
     f_out.close();
