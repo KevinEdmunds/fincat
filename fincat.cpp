@@ -1,5 +1,5 @@
 // JA - it is good practice to insert comment about intended use, context, contributors, etc
-
+//KE - Included libraries
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -106,3 +106,4 @@ int main(int argc, char *argv[])
     // JA - Need to check that 3 arguments were supplied upon execution
     process_data(argv[1], argv[2]);
 }
+
