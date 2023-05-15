@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int dollars2rands(int x)
+//KE - Function name changed for consistent naming convention
+int dollarsToRands(float x)
 {
     return(x*20);
 }
@@ -18,12 +19,12 @@ double calcRatioPM(double revenue, double expenses)
 
 double calcRatioRoA(double revenue, double expenses, double assets)
 {
-    return (expenses / assets);
+    return ((revenue-expenses) / assets); //KE - fixed equation
 }
 
 double calcRatioDE(double assets, double liabilities)
 {
-    return(assets/ liabilities);
+    return(liabilities/assets);  //KE - fixed equation
 }
 
 char categorisePM(double ratio)
@@ -31,7 +32,7 @@ char categorisePM(double ratio)
     char cat;
     if (ratio<0.08)
         cat='unhealty';
-    else if (ratio<=0.15)
+    else if (ratio<0.15&&ratio>0.08)  //KE - fixed condition
         cat='average';
     else
         cat='healthy';
@@ -43,7 +44,7 @@ char categoriseRoA(double ratio)
     char cat;
     if (ratio < 0.08)
         cat = 'unhealthy';
-    else if (ratio <= 0.15)
+    else if (ratio < 0.15 && ratio > 0.08)  //KE -fixed condition
         cat = 'average';
     else
         cat = 'healthy';
@@ -55,7 +56,7 @@ char categoriseDE(double ratio)
     char cat;
     if (ratio < 1)
         cat = 'healthy';
-    else if (ratio <= 2)
+    else if (ratio>=1&&ratio < 2)   //KE - fixed contition
         cat = 'average';
     else
         cat = 'unhealthy';
@@ -76,7 +77,7 @@ void process_data(char* input_file, char* output_file)
     while (!f_in.eof())
     {
     	f_in >> company_id >> revenue_USD >> expenses >> assets >> liabilities;
-        revenue_ZAR = dollars2rands(double(revenue_ZAR));
+        revenue_ZAR = dollarsTorRands(double(revenue_ZAR));
         ratio_PM = calcRatioPM(revenue_USD, expenses);
         cat=categorisePM(ratio_PM);
         ratio_RoA = calcRatioRoA(revenue_ZAR, expenses, assets);;
